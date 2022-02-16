@@ -5,7 +5,7 @@
 <div>
     <h3>Peliculas</h3>
 
-    <ListadoPeliculas/>
+    <ListadoPeliculas Peliculas="ObtenerPeliculas()"/>
    
 </div>
 
@@ -15,7 +15,16 @@
     string nombre = "Felipe";
 
     public Pelicula SpiderMan { get { return ObtenerPelicula(); } }
-    public List<Pelicula> Peliculas;
+
+     private List<Pelicula> ObtenerPeliculas()
+    {
+        return new List<Pelicula>
+        {
+            new Pelicula(){Titulo="Spider-Man: Far away home",Lanzamiento = new DateTime(2019, 11, 2)},
+            new Pelicula(){Titulo="Moana",Lanzamiento = new DateTime(2001,10,15)},
+            new Pelicula(){Titulo="Inception",Lanzamiento = new DateTime(2006, 12, 20)}
+        };
+    }
 
 
     private Pelicula ObtenerPelicula()
