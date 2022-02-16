@@ -1,0 +1,18 @@
+﻿@page "/"
+
+<p>Hola, @Enmayuscular(nombre)</p>
+
+<p>vamos a sumar 2 + 2= @(2+2)</p>
+
+<button @onclick="@ManejarClick">Presioname</button>
+
+@code{
+    string nombre = "Felipe";
+
+    string Enmayuscular(string valor) => valor.ToUpper();
+
+    private void ManejarClick()
+    {
+        Console.WriteLine("me han clicleado desde metodo");
+    }
+}
