@@ -5,18 +5,28 @@
 <div>
     <h3>Peliculas</h3>
 
-    <ListadoPeliculas Peliculas="ObtenerPeliculas()"/>
-   
+    <ListadoPeliculas Peliculas="ObtenerPeliculas()" />
+
 </div>
 
+<div>
+    <h2>Crear nueva pelicula</h2>
+    <EjemploTextbox placeholder="placeholder Index" />
+</div>
 
 
 @code {
     string nombre = "Felipe";
 
+    private Dictionary<string, object> EjemploTextboxParametros = new Dictionary<string, object>()
+    {
+        {"placeholder","nuevo placeholder 2"},
+        {"disabled","true"}
+    };
+
     public Pelicula SpiderMan { get { return ObtenerPelicula(); } }
 
-     private List<Pelicula> ObtenerPeliculas()
+    private List<Pelicula> ObtenerPeliculas()
     {
         return new List<Pelicula>
         {
