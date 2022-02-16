@@ -1,0 +1,41 @@
+﻿ @if (Peliculas == null)
+    {
+        <iframe src="https://giphy.com/embed/L05HgB2h6qICDs5Sms" width="100" height="100" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+        <text>Cargando...</text>
+    }
+    else if (Peliculas.Count == 0)
+    {
+        <text>No hay registros para mostrar</text>
+    }
+    else
+    {
+        @foreach (var item in Peliculas)
+        {
+            <div>
+                <p>Titulo: <b>@item.Titulo</b></p>
+                <p>Lanzamiento: <b>@item.Lanzamiento.ToString("dd MMM yyyy")</b></p>
+            </div>
+        }
+    }
+@code {
+
+    public List<Pelicula> Peliculas;
+
+     protected override async Task OnInitializedAsync()
+    {
+        //await Task.Delay(3000);
+        Peliculas = ObtenerPeliculas();
+    }
+
+
+     private List<Pelicula> ObtenerPeliculas()
+    {
+        return new List<Pelicula>
+        {
+            new Pelicula(){Titulo="<b>Spider-Man: Far away home</b>",Lanzamiento = new DateTime(2019, 11, 2)},
+            new Pelicula(){Titulo="<i>Moana</i>",Lanzamiento = new DateTime(2001,10,15)},
+            new Pelicula(){Titulo="Inception",Lanzamiento = new DateTime(2006, 12, 20)}
+        };
+    }
+
+}
