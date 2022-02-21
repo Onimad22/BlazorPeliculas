@@ -5,7 +5,15 @@
 <div>
     <h3>Peliculas</h3>
 
-    <ListadoPeliculas Peliculas="ObtenerPeliculas()" />
+    <ListadoPeliculas Peliculas="ObtenerPeliculas()">
+                <Cargando>
+                    <text>Cargando....(Page)</text>
+                </Cargando>
+                <NoHayRegistros>
+                    <text>No hay registros para mostrar(Page)</text>
+                </NoHayRegistros>
+
+    </ListadoPeliculas>
 
 </div>
 
@@ -28,6 +36,7 @@
 
     private List<Pelicula> ObtenerPeliculas()
     {
+        
         return new List<Pelicula>
         {
             new Pelicula(){Titulo="Spider-Man: Far away home",Lanzamiento = new DateTime(2019, 11, 2)},

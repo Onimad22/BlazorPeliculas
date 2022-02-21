@@ -1,11 +1,25 @@
 ﻿ @if (Peliculas == null)
     {
-        <iframe src="https://giphy.com/embed/L05HgB2h6qICDs5Sms" width="100" height="100" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-        <text>Cargando...</text>
+        @if (Cargando==null)
+       {
+        <text>Cargando....(componente)</text>
     }
+    else
+    {
+        @Cargando
+    }
+}
     else if (Peliculas.Count == 0)
     {
-        <text>No hay registros para mostrar</text>
+        @if (NoHayRegistros==null)
+       {
+        <text>No hay registros para mostrar(Componente)</text>
+    }
+    else
+    {
+        @NoHayRegistros
+    }
+        
     }
     else
     {
@@ -19,6 +33,8 @@
 @code {
 
     [Parameter] public List<Pelicula> Peliculas{ get; set; }
+    [Parameter] public RenderFragment Cargando{ get; set; }
+    [Parameter] public RenderFragment NoHayRegistros{ get; set; }
     bool MostrarBotones = true;
 
     void EliminarPelicula(Pelicula pelicula)
