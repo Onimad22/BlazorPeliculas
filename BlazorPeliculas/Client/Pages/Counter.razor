@@ -1,6 +1,5 @@
 ﻿@page "/counter"
-@inject ServicioSingleton singleton
-@inject ServicioTransient transient
+
 
 <h1>Counter</h1>
 
@@ -12,13 +11,4 @@
 
 <ListadoPeliculas/>
 
-@code {
-    private int currentCount = 0;
 
-    private void IncrementCount()
-    {
-        currentCount++;
-        singleton.Valor = currentCount;
-        transient.Valor = currentCount;
-    }
-}
