@@ -1,9 +1,10 @@
 ﻿@page "/"
+@using static BlazorPeliculas.Client.Shared.MainLayout
 @inject ServicioSingleton singleton
 @inject IRepositorio repositorio
 
 
-<p>singleton count: @singleton.Valor</p>
+<p style="color:@appState.Color; font-size:@appState.Size;">singleton count: @singleton.Valor</p>
 <div>
     <h3>Peliculas</h3>
 
@@ -17,6 +18,9 @@
 
 @code {
     string nombre = "Felipe";
+
+    [CascadingParameter] private AppState appState { get; set; }
+
     private List<Pelicula> Peliculas;
 
     protected override void OnInitialized()
