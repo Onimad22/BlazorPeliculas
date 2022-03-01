@@ -1,26 +1,12 @@
 ﻿@page "/"
-@using static BlazorPeliculas.Client.Shared.MainLayout
-@inject ServicioSingleton singleton
 @inject IRepositorio repositorio
 
-
-<p style="color:@appState.Color; font-size:@appState.Size;">singleton count: @singleton.Valor</p>
 <div>
     <h3>Peliculas</h3>
-
-<ListadoPeliculas Peliculas="Peliculas"/>
-
+    <ListadoPeliculas Peliculas="Peliculas" />
 </div>
 
-<button @onclick="AgregarPelicula">Agregar Pelicula</button>
-
-
-
 @code {
-    string nombre = "Felipe";
-
-    [CascadingParameter] private AppState appState { get; set; }
-
     private List<Pelicula> Peliculas;
 
     protected override void OnInitialized()
@@ -28,21 +14,4 @@
         Peliculas = repositorio.ObtenerPeliculas();
     }
 
-    void AgregarPelicula()
-    {
-        Peliculas.Add(new Pelicula() { Titulo = "Nueva Pelicula", Lanzamiento = DateTime.Today });
-    }
-
-    private Dictionary<string, object> EjemploTextboxParametros = new Dictionary<string, object>()
-    {
-        {"placeholder","nuevo placeholder 2"},
-        {"disabled","true"}
-    };
-
-       
-
-    private void ManejarClick()
-    {
-        Console.WriteLine("me han clicleado desde metodo");
-    }
 }
