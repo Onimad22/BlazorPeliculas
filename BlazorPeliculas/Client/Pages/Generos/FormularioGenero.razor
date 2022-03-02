@@ -1,0 +1,17 @@
+﻿<EditForm Model="genero" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator/>
+    <div class="form-group">
+        <label>Nombre:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="genero.Nombre"/>
+            <ValidationMessage For="@(()=>genero.Nombre)"/>
+        </div>
+    </div>
+
+    <button class="btn alert-success" type="submit">Guardar Cambios</button>
+</EditForm>
+
+@code {
+    [Parameter] public Genero genero{ get; set; }
+    [Parameter] public EventCallback OnValidSubmit{ get; set; }
+}
