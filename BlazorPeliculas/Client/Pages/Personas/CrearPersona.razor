@@ -2,6 +2,14 @@
 
 <h3>CrearPersona</h3>
 
+<FormularioPersonas OnValidSubmit="Crear" Persona="Persona"/>
+
 @code {
+    private Persona Persona = new Persona();
+
+    void Crear()
+    {
+        Console.WriteLine("Crear Persona");
+    }
 
 }
