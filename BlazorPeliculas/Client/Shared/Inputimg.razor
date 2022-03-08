@@ -27,7 +27,7 @@
 </div>
 
 @code {
-    [Parameter] public string ImagenURL{ get; set; }
+    [Parameter] public string ImagenURL { get; set; }
     [Parameter] public string Label { get; set; } = "Imagen";
     [Parameter] public EventCallback<string> ImagenSeleccionada{ get; set; }
     private string imagenBase64;
