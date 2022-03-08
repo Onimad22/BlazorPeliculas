@@ -40,7 +40,23 @@
     <div>
         <SelectorMultiple Seleccionados="Seleccionados" NoSeleccionados="NoSeleccionados"></SelectorMultiple>
     </div>
+    <div class="form-group">
+        <label>Actores:</label>
+        <div>
+            <SelectorMultipleTypeahead Context="persona" SearchMethod="BuscarActores"
+                                       ElementosSeleccionados="ActoresSeleccionados">
+                                       <MyListTemplate>
+                                           @persona.Nombre
+                                       </MyListTemplate>
+                                       <MyResultTemplate>
+                                           <img style="width:50px" src="@persona.Foto"/>
+                                           @persona.Nombre
+                                       </MyResultTemplate>
 
+            </SelectorMultipleTypeahead>
+        </div>
+
+    </div>
 
     <button class="btn btn-success" type="submit">Guardar Pelicula</button>
 </EditForm>
@@ -51,6 +67,8 @@
     [Parameter] public EventCallback OnValidSubmit { get; set; }
     [Parameter] public List<Genero> GenerosSeleccionados { get; set; } = new List<Genero>();
     [Parameter] public List<Genero> GenerosNoSeleccionados { get; set; } = new List<Genero>();
+    [Parameter] public List<Persona> ActoresSeleccionados { get; set; } = new List<Persona>();
+
     private List<SelectorMultipleModel> Seleccionados { get; set; } = new List<SelectorMultipleModel>();
     private List<SelectorMultipleModel> NoSeleccionados { get; set; } = new List<SelectorMultipleModel>();
     private string imagenURL;
@@ -60,10 +78,10 @@
     protected override void OnInitialized()
     {
 
-        Seleccionados=GenerosSeleccionados.Select(x=>new SelectorMultipleModel(x.Id.ToString(),x.Nombre)).ToList();
-        NoSeleccionados=GenerosNoSeleccionados.Select(x=>new SelectorMultipleModel(x.Id.ToString(),x.Nombre)).ToList();
-        
-        
+        Seleccionados = GenerosSeleccionados.Select(x => new SelectorMultipleModel(x.Id.ToString(), x.Nombre)).ToList();
+        NoSeleccionados = GenerosNoSeleccionados.Select(x => new SelectorMultipleModel(x.Id.ToString(), x.Nombre)).ToList();
+
+
         @if (!string.IsNullOrEmpty(Pelicula.Poster))
         {
             imagenURL = Pelicula.Poster;
@@ -75,4 +93,15 @@
         Pelicula.Poster = imagenBase64;
         imagenURL = null;
     }
+
+    private async Task<IEnumerable<Persona>> BuscarActores(string searchText)
+    {
+        return new List<Persona>()
+        {
+            new Persona(){Id=1,Nombre="Tom Halland",Foto="https://media.gettyimages.com/photos/tom-holland-attends-the-premiere-of-columbia-pictures-spiderman-at-picture-id802956774?k=20&m=802956774&s=612x612&w=0&h=QTPOPuuFGTUhoSOO04TClBErHh1yyZAM55A2GHdiFXM="},
+            new Persona(){Id=2,Nombre="Tom Hanw",Foto="https://media.gettyimages.com/photos/tom-hanks-walks-a-red-carpet-on-october-13-2016-in-rome-italy-picture-id614298990?k=20&m=614298990&s=612x612&w=0&h=R8Ls0gWF1EReLiZNY2m2gH9lvS9wlE6GtbJ0FC1ykrE="},
+        };
+
+    }
+
 }
