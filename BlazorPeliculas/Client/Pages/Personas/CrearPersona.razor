@@ -1,4 +1,8 @@
 ﻿@page "/Personas/crear"
+@inject IRepositorio repositorio
+@inject NavigationManager navigationManager
+@inject IMostrarMensajes  mostrarMensajes
+
 
 <h3>CrearPersona</h3>
 
@@ -7,9 +11,17 @@
 @code {
     private Persona Persona = new Persona();
 
-    void Crear()
+    private async Task Crear()
     {
-        Console.WriteLine("Crear Persona");
+        var httpResponse = await repositorio.Post("api/Personas", Persona);
+        if (httpResponse.Error)
+        {
+           await mostrarMensajes.MostrarMensajeError(await httpResponse.GetBody());
+        }
+        else
+        {
+            navigationManager.NavigateTo("/personas");
+        }
     }
 
 }
