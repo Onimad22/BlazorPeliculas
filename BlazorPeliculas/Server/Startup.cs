@@ -29,7 +29,10 @@ namespace BlazorPeliculas.Server
             services.AddRazorPages();
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<IAlmacenadorArchivos, AlmacenadorArchivosAzStorage>();
+            //services.AddScoped<IAlmacenadorArchivos, AlmacenadorArchivosAzStorage>();
+            services.AddScoped<IAlmacenadorArchivos, AlmacenadorArchivosLocal>();
+            services.AddHttpContextAccessor();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
