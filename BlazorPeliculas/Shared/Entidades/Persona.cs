@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ namespace BlazorPeliculas.Shared.Entidades
         [Required]
         public DateTime? FechaNacimiento { get; set; }
         public List<PeliculaActor> PeliculaActores { get; set; }
+        [NotMapped]
+        public string Personaje { get; set; }
 
         public override bool Equals(object obj)
         {
