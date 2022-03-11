@@ -8,7 +8,7 @@ namespace BlazorPeliculas.Server.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Genero",
+                name: "Generos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -17,7 +17,7 @@ namespace BlazorPeliculas.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Genero", x => x.Id);
+                    table.PrimaryKey("PK_Generos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -39,7 +39,7 @@ namespace BlazorPeliculas.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Persona",
+                name: "Personas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -51,7 +51,7 @@ namespace BlazorPeliculas.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Persona", x => x.Id);
+                    table.PrimaryKey("PK_Personas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,9 +65,9 @@ namespace BlazorPeliculas.Server.Migrations
                 {
                     table.PrimaryKey("PK_GenerosPeliculas", x => new { x.PeliculaId, x.GeneroId });
                     table.ForeignKey(
-                        name: "FK_GenerosPeliculas_Genero_GeneroId",
+                        name: "FK_GenerosPeliculas_Generos_GeneroId",
                         column: x => x.GeneroId,
-                        principalTable: "Genero",
+                        principalTable: "Generos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -97,9 +97,9 @@ namespace BlazorPeliculas.Server.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PeliculasActores_Persona_PersonaId",
+                        name: "FK_PeliculasActores_Personas_PersonaId",
                         column: x => x.PersonaId,
-                        principalTable: "Persona",
+                        principalTable: "Personas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -124,13 +124,13 @@ namespace BlazorPeliculas.Server.Migrations
                 name: "PeliculasActores");
 
             migrationBuilder.DropTable(
-                name: "Genero");
+                name: "Generos");
 
             migrationBuilder.DropTable(
                 name: "Peliculas");
 
             migrationBuilder.DropTable(
-                name: "Persona");
+                name: "Personas");
         }
     }
 }

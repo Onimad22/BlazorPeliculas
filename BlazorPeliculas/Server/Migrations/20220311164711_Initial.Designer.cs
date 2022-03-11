@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorPeliculas.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220309013210_Initial")]
+    [Migration("20220311164711_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,7 @@ namespace BlazorPeliculas.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genero");
+                    b.ToTable("Generos");
                 });
 
             modelBuilder.Entity("BlazorPeliculas.Shared.Entidades.GeneroPelicula", b =>
@@ -128,7 +128,7 @@ namespace BlazorPeliculas.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Persona");
+                    b.ToTable("Personas");
                 });
 
             modelBuilder.Entity("BlazorPeliculas.Shared.Entidades.GeneroPelicula", b =>

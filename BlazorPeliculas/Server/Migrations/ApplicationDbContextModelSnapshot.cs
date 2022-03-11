@@ -32,7 +32,7 @@ namespace BlazorPeliculas.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genero");
+                    b.ToTable("Generos");
                 });
 
             modelBuilder.Entity("BlazorPeliculas.Shared.Entidades.GeneroPelicula", b =>
@@ -126,7 +126,7 @@ namespace BlazorPeliculas.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Persona");
+                    b.ToTable("Personas");
                 });
 
             modelBuilder.Entity("BlazorPeliculas.Shared.Entidades.GeneroPelicula", b =>
