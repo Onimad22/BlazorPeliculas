@@ -1,4 +1,7 @@
-﻿<EditForm Model="Pelicula" OnValidSubmit="OnDataAnnotationValidate">
+﻿@inject IRepositorio repositorio
+
+
+<EditForm Model="Pelicula" OnValidSubmit="OnDataAnnotationValidate">
     <DataAnnotationsValidator />
     <div class="form-group">
         <label>Titulo:</label>
@@ -43,10 +46,11 @@
     <div class="form-group">
         <label>Actores:</label>
         <div>
-            <SelectorMultipleTypeahead Context="persona" SearchMethod="BuscarActores"
+            <SelectorMultipleTypeahead Context="persona"
+                                       SearchMethod="BuscarActores"
                                        ElementosSeleccionados="ActoresSeleccionados">
                 <MyListTemplate>
-                    @persona.Nombre / <input type="text" placeholder="Personaje" @bind="persona.Personaje"/>
+                    @persona.Nombre / <input type="text" placeholder="Personaje" @bind="persona.Personaje" />
                 </MyListTemplate>
                 <MyResultTemplate>
                     <img style="width:50px" src="@persona.Foto" />
@@ -96,11 +100,8 @@
 
     private async Task<IEnumerable<Persona>> BuscarActores(string searchText)
     {
-        return new List<Persona>()
-        {
-            new Persona(){Id=1,Nombre="Tom Halland",Foto="https://media.gettyimages.com/photos/tom-holland-attends-the-premiere-of-columbia-pictures-spiderman-at-picture-id802956774?k=20&m=802956774&s=612x612&w=0&h=QTPOPuuFGTUhoSOO04TClBErHh1yyZAM55A2GHdiFXM="},
-            new Persona(){Id=2,Nombre="Tom Hanw",Foto="https://media.gettyimages.com/photos/tom-hanks-walks-a-red-carpet-on-october-13-2016-in-rome-italy-picture-id614298990?k=20&m=614298990&s=612x612&w=0&h=R8Ls0gWF1EReLiZNY2m2gH9lvS9wlE6GtbJ0FC1ykrE="},
-        };
+        var responseHttp = await repositorio.Get<List<Persona>>($"api/personas/buscar/{searchText}");
+        return responseHttp.Response;
 
     }
 
@@ -110,7 +111,7 @@
         .Select(x => new GeneroPelicula { GeneroId = int.Parse(x.Llave) }).ToList();
         Pelicula.PeliculaActores = ActoresSeleccionados
         .Select(x => new PeliculaActor { PersonaId = x.Id, Personaje = x.Personaje }).ToList();
-        if(string.IsNullOrEmpty(Pelicula.Poster)){ imagenURL = null; }
+        if (string.IsNullOrEmpty(Pelicula.Poster)) { imagenURL = null; }
 
         await OnValidSubmit.InvokeAsync(null);
     }

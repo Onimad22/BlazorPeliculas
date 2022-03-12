@@ -4,19 +4,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlazorPeliculas.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PersonasController:ControllerBase
+    public class PersonasController : ControllerBase
     {
         private readonly ApplicationDbContext context;
         private readonly IAlmacenadorArchivos almacenadorArchivos;
-        private readonly string contenedor="personas";
+        private readonly string contenedor = "personas";
 
-        public PersonasController(ApplicationDbContext context,IAlmacenadorArchivos almacenadorArchivos)
+        public PersonasController(ApplicationDbContext context, IAlmacenadorArchivos almacenadorArchivos)
         {
             this.context = context;
             this.almacenadorArchivos = almacenadorArchivos;
@@ -26,6 +27,20 @@ namespace BlazorPeliculas.Server.Controllers
         public async Task<ActionResult<List<Persona>>> Get()
         {
             return await context.Personas.ToListAsync();
+        }
+
+        [HttpGet("buscar/{textoBusqueda}")]
+        public async Task<ActionResult<List<Persona>>> Get(string textoBusqueda)
+        {
+            if (string.IsNullOrEmpty(textoBusqueda))
+            {
+                return new List<Persona>();
+            }
+            textoBusqueda = textoBusqueda.ToLower();
+            return await context.Personas
+                .Where(x => x.Nombre.ToLower()
+                .Contains(textoBusqueda))
+                .ToListAsync();
         }
 
         [HttpPost]
