@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using System.Linq;
 
 namespace BlazorPeliculas.Server
@@ -25,13 +26,14 @@ namespace BlazorPeliculas.Server
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson(
+                option=>option.SerializerSettings.ReferenceLoopHandling=ReferenceLoopHandling.Ignore);
             services.AddRazorPages();
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddScoped<IAlmacenadorArchivos, AlmacenadorArchivosAzStorage>();
-            services.AddScoped<IAlmacenadorArchivos, AlmacenadorArchivosLocal>();
-            services.AddHttpContextAccessor();
+            services.AddScoped<IAlmacenadorArchivos, AlmacenadorArchivosAzStorage>();
+            //services.AddScoped<IAlmacenadorArchivos, AlmacenadorArchivosLocal>();
+            //services.AddHttpContextAccessor();
 
         }
 

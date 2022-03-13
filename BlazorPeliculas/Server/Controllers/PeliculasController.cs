@@ -11,7 +11,7 @@ namespace BlazorPeliculas.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PeliculasController:ControllerBase
+    public class PeliculasController : ControllerBase
     {
         private readonly ApplicationDbContext context;
         private readonly IAlmacenadorArchivos almacenadorArchivos;
@@ -21,6 +21,40 @@ namespace BlazorPeliculas.Server.Controllers
         {
             this.context = context;
             this.almacenadorArchivos = almacenadorArchivos;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PeliculaVisualizarDTO>> Get(int id)
+        {
+            var pelicula = await context.Peliculas.Where(x => x.Id == id)
+                .Include(x => x.GeneroPeliculas)
+                .ThenInclude(x => x.Genero)
+                .Include(x => x.PeliculaActores)
+                .ThenInclude(x => x.Persona)
+                .FirstOrDefaultAsync();
+
+            if (pelicula == null) { return NotFound(); }
+
+            //todo:sistema de votacion
+            var promedioVotos = 4;
+            var votoUsuario = 5;
+
+            pelicula.PeliculaActores = pelicula.PeliculaActores.OrderBy(x => x.Orden).ToList();
+            var model = new PeliculaVisualizarDTO();
+            model.Pelicula = pelicula;
+            model.Generos = pelicula.GeneroPeliculas.Select(x => x.Genero).ToList();
+            model.Actores = pelicula.PeliculaActores.Select(x =>
+            new Persona()
+            {
+                Nombre = x.Persona.Nombre,
+                Foto = x.Persona.Foto,
+                Personaje = x.Personaje,
+                Id = x.Persona.Id,
+            }).ToList();
+
+            model.PromedioVotos = promedioVotos;
+            model.VotoUsuario= votoUsuario;
+            return model;
         }
 
         [HttpGet]
@@ -48,7 +82,7 @@ namespace BlazorPeliculas.Server.Controllers
             };
 
             return response;
-       
+
         }
 
         [HttpPost]
@@ -59,6 +93,16 @@ namespace BlazorPeliculas.Server.Controllers
                 var fotoPoster = Convert.FromBase64String(pelicula.Poster);
                 pelicula.Poster = await almacenadorArchivos.GuardarArchivo(fotoPoster, ".jpg", contenedor);
             }
+
+            if (pelicula.PeliculaActores != null)
+            {
+                for (int i = 0; i < pelicula.PeliculaActores.Count; i++)
+                {
+                    pelicula.PeliculaActores[i].Orden = i + 1;
+                }
+            }
+
+            
 
             context.Add(pelicula);
             await context.SaveChangesAsync();
