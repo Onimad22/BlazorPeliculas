@@ -1,4 +1,5 @@
-﻿using BlazorPeliculas.Server.Helpers;
+﻿using AutoMapper;
+using BlazorPeliculas.Server.Helpers;
 using BlazorPeliculas.Shared.Entidades;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,18 +16,36 @@ namespace BlazorPeliculas.Server.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly IAlmacenadorArchivos almacenadorArchivos;
+        private readonly IMapper mapper;
         private readonly string contenedor = "personas";
 
-        public PersonasController(ApplicationDbContext context, IAlmacenadorArchivos almacenadorArchivos)
+        public PersonasController(ApplicationDbContext context,
+            IAlmacenadorArchivos almacenadorArchivos,
+            IMapper mapper)
         {
             this.context = context;
             this.almacenadorArchivos = almacenadorArchivos;
+            this.mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Persona>>> Get()
         {
             return await context.Personas.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Persona>> Get(int id)
+        {
+            var persona = await context.Personas.FirstOrDefaultAsync(x => x.Id == id);
+            if (persona == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return persona;
+            }
         }
 
         [HttpGet("buscar/{textoBusqueda}")]
@@ -55,6 +74,27 @@ namespace BlazorPeliculas.Server.Controllers
             context.Add(persona);
             await context.SaveChangesAsync();
             return persona.Id;
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Put(Persona persona)
+        {
+            var personaDB = await context.Personas.FirstOrDefaultAsync(x => x.Id == persona.Id);
+            if (personaDB == null)
+            {
+                return NotFound();
+            }
+            personaDB = mapper.Map(persona, personaDB);
+
+            if (!string.IsNullOrEmpty(persona.Foto))
+            {
+                var fotoImagen = Convert.FromBase64String(persona.Foto);
+                personaDB.Foto = await almacenadorArchivos.EditarArchivo(fotoImagen,
+                    "jpg", "personas",
+                    personaDB.Foto);
+            }
+            await context.SaveChangesAsync();
+            return NoContent(); 
         }
     }
 }

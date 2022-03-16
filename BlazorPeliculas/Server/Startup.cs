@@ -26,11 +26,12 @@ namespace BlazorPeliculas.Server
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllersWithViews().AddNewtonsoftJson(
-                option=>option.SerializerSettings.ReferenceLoopHandling=ReferenceLoopHandling.Ignore);
+            services.AddMvc().AddNewtonsoftJson(option=>
+            option.SerializerSettings.ReferenceLoopHandling=ReferenceLoopHandling.Ignore);
             services.AddRazorPages();
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IAlmacenadorArchivos, AlmacenadorArchivosAzStorage>();
             //services.AddScoped<IAlmacenadorArchivos, AlmacenadorArchivosLocal>();
             //services.AddHttpContextAccessor();

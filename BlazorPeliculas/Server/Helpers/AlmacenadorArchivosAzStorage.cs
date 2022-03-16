@@ -39,7 +39,7 @@ namespace BlazorPeliculas.Server.Helpers
             await cliente.CreateIfNotExistsAsync();
             cliente.SetAccessPolicy(Azure.Storage.Blobs.Models.PublicAccessType.Blob);
 
-            var archivoNombre = $"{Guid.NewGuid()}{extension}";
+            var archivoNombre = $"{Guid.NewGuid()}.{extension}";
             var blob=cliente.GetBlobClient(archivoNombre);
             using (var ms = new MemoryStream(contenido))
             {

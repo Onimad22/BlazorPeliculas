@@ -36,7 +36,7 @@ namespace BlazorPeliculas.Server.Helpers
 
         public async Task<string> GuardarArchivo(byte[] contenido, string extension, string nombreContenedor)
         {
-            var filename=$"{Guid.NewGuid()}{extension}";
+            var filename=$"{Guid.NewGuid()}.{extension}";
             string folder=Path.Combine(env.WebRootPath, nombreContenedor);
             if (!Directory.Exists(folder))
             {

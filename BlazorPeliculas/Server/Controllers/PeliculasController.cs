@@ -91,7 +91,7 @@ namespace BlazorPeliculas.Server.Controllers
             if (!string.IsNullOrEmpty(pelicula.Poster))
             {
                 var fotoPoster = Convert.FromBase64String(pelicula.Poster);
-                pelicula.Poster = await almacenadorArchivos.GuardarArchivo(fotoPoster, ".jpg", contenedor);
+                pelicula.Poster = await almacenadorArchivos.GuardarArchivo(fotoPoster, "jpg", contenedor);
             }
 
             if (pelicula.PeliculaActores != null)
